@@ -13,53 +13,55 @@ import com.ensa.gi4.modele.Materiel;
 import com.ensa.gi4.modele.TypeMateriel;
 import com.ensa.gi4.service.api.GestionMaterielService;
 
-@Service("livre")
-public class GestionLivreServiceImpl implements GestionMaterielService {
+@Service("chaise")
+public class GestionChaiseServiceImpl implements GestionMaterielService {
+		
+	@Autowired
+	MaterielDao materielDao; 
+	
 	@Autowired
 	ApplicationPublisher publisher; 
 	
-	@Autowired
-	MaterielDao materielDao;
-    
-
 	@Override
 	public void listerMateriel() {
-		if(materielDao.listMaterialByType(TypeMateriel.LIVRE).isEmpty())
-			System.out.println("Aucun livre ajouté ! ");
+		if(materielDao.listMaterialByType(TypeMateriel.CHAISE).isEmpty())
+			System.out.println("Aucune chaise ajoutée ! ");
 		else {
-			System.out.println(materielDao.listMaterialByType(TypeMateriel.LIVRE));
+			System.out.println(materielDao.listMaterialByType(TypeMateriel.CHAISE));
 		}
 	}
-
+	
 	@Override
-	public void ajouterNouveauMateriel(Materiel materiel) {
+	public void ajouterNouveauMateriel(Materiel materiel) {		
 		if(materielDao.add(materiel) == 1 )
 			publisher.publish(new MyEvent<Materiel>(materiel, EventType.ADD));
 	}
-
+	
 	@Override
 	public void supprimerMateriel(long id) {
 		Materiel materiel = chercherMateriel(id); 
 		if (materielDao.deleteMaterial(id) == 1)
-			publisher.publish(new MyEvent<Materiel>(materiel, EventType.REMOVE));
+			publisher.publish(new MyEvent<Materiel>(materiel,EventType.REMOVE));
 	}
-
+	
 	@Override
 	public Materiel chercherMateriel(long id) {
-		return materielDao.findOne(id ); 
+		return materielDao.findOne(id); 
 	}
-
+	
 
 	@Override
 	public void modifierMateriel(long id, String code) {
 		materielDao.updateMaterial(id, code);
-			Materiel materiel = chercherMateriel(id); 
-			publisher.publish(new MyEvent<Materiel>(materiel, EventType.UPDATE));
+		Materiel materiel = chercherMateriel(id); 
+		publisher.publish(new MyEvent<Materiel>(materiel, EventType.UPDATE));
 		
 	}
 
 	@Override
 	public List<Materiel> listeMateriels() {
-		return materielDao.findAll(); 
+		return materielDao.findAll();
+		
 	}
+	 
 }

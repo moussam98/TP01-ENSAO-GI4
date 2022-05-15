@@ -1,7 +1,8 @@
 package com.ensa.gi4.listeners;
 
-import com.ensa.gi4.modele.Materiel;
 import org.springframework.context.ApplicationEvent;
+
+import com.ensa.gi4.modele.Materiel;
 
 public class MyEvent<T extends Materiel> extends ApplicationEvent {
 

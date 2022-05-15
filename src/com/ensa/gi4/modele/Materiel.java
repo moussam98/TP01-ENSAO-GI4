@@ -22,6 +22,6 @@ public abstract class Materiel {
 
     @Override
     public String toString() {
-        return "name = " + name + ", code = " + code;
+        return  "name = " + name + ", code = " + code ;
     }
 }
